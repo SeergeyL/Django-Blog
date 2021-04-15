@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} Posts {% endblock%}
+
+{% block content %}
+
+{% include 'categories.html' %}
+
+<div class="row mt-4 justify-content-between">
+
+    <div class="col">
+        {% for post in posts %}
+            {% include 'post_item.html' with user=user post=post %}
+        {% endfor %}
+    </div>
+
+    {% include 'sidebar.html' %}
+
+</div>
+{% endblock %}

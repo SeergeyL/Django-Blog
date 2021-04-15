@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock%}
+
+{% load user_filters %}
+{% block content %}
+<div class="row mt-4 justify-content-between">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">{{ post.title }}</h3>
+                <div class="my-2">
+                    <small>
+                        <a class="text-decoration-none text-muted" href="{% url 'profile' username=post.author.username%}">
+                            {{ post.author.username }}
+                        </a>
+                    </small>
+                    <small class="ms-2">
+                        {{ post.pub_date|date:"d M Y"}}
+                    </small>
+                </div>
+
+                {% load thumbnail %}
+                {% thumbnail post.image "640x350" crop="center" upscale=True as im %}
+                <img class="card-img" src="{{ im.url }}" />
+                {% endthumbnail %}
+
+                <p class="card-text my-2">{{ post.text }}</p>
+                <div class="d-flex justify-content-end">
+                    {% if user.is_authenticated and user == post.author %}
+                    <a href="{% url 'edit_post' post_id=post.pk%}" class="btn btn-warning ms-2">Edit</a>
+                    <a href="{% url 'delete_post' post_id=post.pk%}" class="btn btn-danger ms-2">Delete</a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+
+        <h4 class="mt-4">Comments</h4>
+
+        <form method="POST" action="{% url 'comment' post_id=post.pk %}">
+            {% csrf_token %}
+            <div class="d-flex">
+                {% style_form_field form.text class='form-control item' placeholder='Comment' %}
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </form>
+
+        {% include 'comments.html' with comments=post.comments.all %}
+
+    </div>
+
+    {% include 'sidebar.html' %}
+
+</div>
+
+
+{% endblock %}

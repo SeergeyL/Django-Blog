@@ -1,0 +1,5 @@
+<nav class="navbar d-flex justify-content-evenly bg-white mt-4 rounded-3 shadow-sm">
+    {% for category in categories %}
+        <a class="p2 mx-2 btn btn-outline-dark" href="{% url 'category' slug=category.slug %}">{{category.title}}</a>
+    {% endfor %}
+</nav>

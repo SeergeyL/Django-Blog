@@ -1,0 +1,40 @@
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-3">
+            {% load thumbnail %}
+            {% thumbnail post.image "200x200" crop="center" upscale=True as im %}
+                <img class="card-img" src="{{ im.url }}" />
+            {% endthumbnail %}
+        </div>
+        <div class="col-md-9 px-3 pt-3">
+
+                <span class="badge bg-secondary mb-2">
+                    <a class="text-white text-decoration-none" href="{% url 'category' slug=post.category.slug%}">
+                        {{post.category.title}}
+                    </a>
+                </span>
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.text|slice:"100" }}...</p>
+
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <small>
+                            <a class="text-decoration-none text-muted" href="{% url 'profile' username=post.author.username %}">
+                                {{ post.author.username }}
+                            </a>
+                        </small>
+                        <small class="ms-2">
+                            {{ post.pub_date|date:"d M Y"}}
+                        </small>
+                    </div>
+                    <div>
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'post' post_id=post.pk %}">Read more</a>
+                        {% if user == post.author %}
+                        <a class="btn btn-outline-warning btn-sm" href="{% url 'edit_post' post_id=post.pk %}">Edit</a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'delete_post' post_id=post.pk %}">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

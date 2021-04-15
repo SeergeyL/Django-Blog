@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %} Registration {% endblock %}
+
+{% load user_filters %}
+
+{% block content %}
+
+<div class="generic-form">
+    <form method="POST" action="{% url 'signup' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h3 class="mb-4">Register</h3>
+
+        {% for form in forms %}
+            {% for error in form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error|escape }}
+            </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% for form in forms %}
+            {% for field in form %}
+            <div class="form-group">
+                {% style_form_field field class="form-control item" placeholder=field.label %}
+            </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-block create-account">Create Account</button>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}

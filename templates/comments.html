@@ -1,0 +1,30 @@
+{% for comment in comments %}
+
+<div class="d-flex justify-content-center row my-3 ">
+    <div class="col">
+        <div class="bg-white rounded-3">
+            <div class="d-flex flex-row p-2">
+
+                {% load thumbnail %}
+                {% thumbnail comment.author.userprofile.avatar "50x50" crop="center" upscale=True as im %}
+                    <img class="rounded-circle" style="width: 50px; heigth: 50px;" src="{{ im.url }}" />
+                {% endthumbnail %}
+
+                <div class="d-flex flex-column ms-2">
+                    <h6>
+                        <a class="text-decoration-none" href="{% url 'profile' username=comment.author.username %}">{{ comment.author.username }}</a>
+                    </h6>
+                    <span>{{ comment.pub_date }}</span>
+                </div>
+
+            </div>
+
+            <div class="mt-2 p-2">
+                <p>{{ comment.text }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endfor %}

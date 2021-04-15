@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %} {% if post %} Edit post {% else %} Create post {% endif %} {% endblock %}
+
+{% load user_filters %}
+
+{% block content %}
+
+<div class="generic-form">
+    <form method="POST" action="{% if post %} {% url 'edit_post' post_id=post.pk %} {% else %} {% url 'new_post'%} {% endif %}"
+        enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <h3 class="mb-4">Create new post</h3>
+        <!--  Error messages here -->
+        {% for error in form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error|escape }}
+        </div>
+        {% endfor %}
+
+        {% for field in form %}
+        <div class="form-group">
+            {% style_form_field field class="form-control item" placeholder=field.label %}
+        </div>
+
+        {% endfor %}
+
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-block create-account">
+                {% if post %} Save {% else %} Create post {% endif %}
+            </button>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %} Profile {{ author.username }} {% endblock %}
+
+
+{% block content %}
+
+<div class="row mt-4 justify-content-between">
+    <div class="col ">
+        {% if not posts %}
+        <h2 class="text-center">Empty profile</h2>
+        {% endif %}
+
+        {% for post in posts %}
+        {% include 'post_item.html' with post=post user=user %}
+        {% endfor %}
+
+    </div>
+
+    <div class="col-4">
+        <div class="d-flex justify-content-center">
+            <div class="card p-3" style="width:100%;">
+                <div class="d-flex">
+                    {% load thumbnail %}
+                    {% thumbnail author.userprofile.avatar "155x155" crop="center" upscale=True as im %}
+                    <img class="card-img rounded-3" src="{{ im.url }}" />
+                    {% endthumbnail %}
+
+                    <!--                    <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80" class="rounded-3" width="155px">-->
+
+                    <div class="d-flex flex-column ms-3 justify-content-between" style="width: 100%;">
+                        <h5>{{ author.username }}</h5>
+
+                        <div class="text-muted my-2">
+                            <h6>
+                                Followers: {{ author.following.count }}
+                            </h6>
+                            <h6>
+                                Following: {{ author.follower.count }}
+                            </h6>
+                            <h6>
+                                Views: XXX
+                            </h6>
+                        </div>
+
+                        {% if user != author %}
+
+                        {% if following %}
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'unfollow' username=author.username %}">Unfollow</a>
+                        {% else %}
+                        <a class="btn btn-sm btn-primary" href="{% url 'follow' username=author.username %}">Follow</a>
+                        {% endif %}
+
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

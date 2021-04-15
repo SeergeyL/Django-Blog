@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %} Logged out {% endblock %}
+
+{% block content %}
+
+<div class="alert alert-success mt-4" role="alert">
+    <h4 class="alert-heading">You logged out!</h4>
+    <p>Hope you will be back soon</p>
+    <p>Redirect to our main page <a href="{% url 'index' %}">Blog page</a> </p>
+</div>
+
+{% endblock %}
