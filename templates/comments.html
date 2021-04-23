@@ -7,7 +7,7 @@
 
                 {% load thumbnail %}
                 {% thumbnail comment.author.userprofile.avatar "50x50" crop="center" upscale=True as im %}
-                    <img class="rounded-circle" style="width: 50px; heigth: 50px;" src="{{ im.url }}" />
+                <img class="rounded-circle" style="width: 50px; heigth: 50px;" src="{{ im.url }}" />
                 {% endthumbnail %}
 
                 <div class="d-flex flex-column ms-2">
@@ -16,6 +16,15 @@
                     </h6>
                     <span>{{ comment.pub_date }}</span>
                 </div>
+
+                {% if user == comment.author or user == comment.post.author %}
+                <div class="dropdown ms-auto">
+                    <span class="material-icons md-36 btn" id="dropdownMenuButton1" data-bs-toggle="dropdown">expand_more</span>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{% url 'delete_comment' post_id=comment.post.pk comment_id=comment.pk %}">Delete</a></li>
+                    </ul>
+                </div>
+                {% endif %}
 
             </div>
 

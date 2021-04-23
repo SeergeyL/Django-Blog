@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from posts.forms import PostForm, CommentForm
-from posts.models import Post, PostCategory, User, Follow
+from posts.models import Post, PostCategory, User, Follow, Comment
 
 
 def index(request):
@@ -115,6 +115,19 @@ def add_comment(request, post_id):
             comment.post = post
             form.save()
             return redirect('post', post_id=post_id)
+
+
+@login_required
+def delete_comment(request, post_id, comment_id):
+
+    post = get_object_or_404(Post, pk=post_id)
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if request.user == post.author or request.user == comment.author:
+        comment.delete()
+        return redirect('post', post_id=post_id)
+
+    return redirect('post', post_id=post_id)
 
 
 @login_required

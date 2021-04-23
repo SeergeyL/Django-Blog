@@ -17,6 +17,7 @@ urlpatterns = [
 
     # Add comment to post
     path('post_<int:post_id>/comment', views.add_comment, name='comment'),
+    path('post_<int:post_id>/comment_<int:comment_id>/delete', views.delete_comment, name='delete_comment'),
 
     # Following feature
     path('user/<str:username>/follow', views.follow, name='follow'),
