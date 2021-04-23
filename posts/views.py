@@ -119,6 +119,10 @@ def add_comment(request, post_id):
 
 @login_required
 def delete_comment(request, post_id, comment_id):
+    """
+    Deletes comment under the post. The comment can be deletted only by author of the post
+    or comment author
+    """
 
     post = get_object_or_404(Post, pk=post_id)
     comment = get_object_or_404(Comment, pk=comment_id)
