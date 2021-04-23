@@ -10,7 +10,7 @@ class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-    category = models.ForeignKey('PostCategory', on_delete=models.CASCADE, related_name='posts')
+    category = models.ForeignKey('PostCategory', on_delete=models.CASCADE, related_name='posts', null=True, blank=True)
     image = models.ImageField(upload_to='posts/', default='posts/default.jpg')
 
     def __str__(self):
