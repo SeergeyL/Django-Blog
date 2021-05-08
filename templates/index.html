@@ -9,11 +9,16 @@
 
     <div class="col">
         {% for post in posts %}
-            {% include 'post_item.html' with user=user post=post %}
+        {% include 'post_item.html' with user=user post=post %}
         {% endfor %}
     </div>
 
     {% include 'sidebar.html' %}
 
 </div>
+
+{% if posts.has_other_pages %}
+    {% include 'paginator.html' with items=posts paginator=paginator %}
+{% endif %}
+
 {% endblock %}

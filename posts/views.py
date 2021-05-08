@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from posts.forms import PostForm, CommentForm
 from posts.models import Post, PostCategory, User, Follow, Comment
@@ -6,22 +7,40 @@ from posts.models import Post, PostCategory, User, Follow, Comment
 
 def index(request):
     """
-    Renders main page with all users posts and category navigation
+    Renders main page
     """
     posts = Post.objects.order_by('-pub_date')
     categories = PostCategory.objects.all()
 
-    return render(request, "index.html", {"posts": posts, "categories": categories})
+    # Setting up Paginator
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    return render(request, "index.html", {
+        "posts": page,
+        "categories": categories,
+        "paginator": paginator,
+    })
 
 
 def category_page(request, slug):
     """
-    Renders category specific posts and category navigation
+    Renders category page
     """
     posts = Post.objects.filter(category__slug=slug).order_by('-pub_date')
     categories = PostCategory.objects.all()
 
-    return render(request, "index.html", {"posts": posts, "categories": categories})
+    # Setting up Paginator
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    return render(request, "index.html", {
+        "posts": page,
+        "categories": categories,
+        "paginator": paginator,
+    })
 
 
 def post_page(request, post_id):
@@ -42,7 +61,17 @@ def profile(request, username):
     user_posts = user.posts.all()
     follow_status = user.following.filter(blogger__username=username).exists()
 
-    return render(request, 'profile.html', {'posts': user_posts, "author": user, "following": follow_status})
+    # Setting up Paginator
+    paginator = Paginator(user_posts, 10)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    return render(request, 'profile.html', {
+        "posts": page,
+        "author": user,
+        "following": follow_status,
+        "paginator": paginator,
+    })
 
 
 @login_required
