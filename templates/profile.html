@@ -20,6 +20,10 @@
         {% for post in posts %}
         {% include 'post_item.html' with post=post user=user %}
         {% endfor %}
+
+        {% if posts.has_other_pages %}
+        {% include 'paginator.html' with items=posts paginator=paginator %}
+        {% endif %}
     </div>
 
     <!-- User card -->
@@ -54,22 +58,12 @@
                         {% else %}
                         <a class="btn btn-sm btn-primary" href="{% url 'follow' username=author.username %}">Follow</a>
                         {% endif %}
-
                         {% endif %}
-
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
-
-
-{% if posts.has_other_pages %}
-{% include 'paginator.html' with items=posts paginator=paginator %}
-{% endif %}
-
 
 {% endblock %}

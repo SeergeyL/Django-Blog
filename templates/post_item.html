@@ -3,7 +3,7 @@
         <div class="col-md-3">
             {% load thumbnail %}
             {% thumbnail post.image "200x200" crop="center" upscale=True as im %}
-            <img class="card-img" src="{{ im.url }}" />
+            <img class="card-img" src="{{ im.url }}"/>
             {% endthumbnail %}
         </div>
         <div class="col-md-9 px-3 pt-3">
@@ -16,7 +16,7 @@
             </span>
             {% endif %}
             <h5 class="card-title">{{ post.title }}</h5>
-            <p class="card-text">{{ post.text|slice:"100" }}...</p>
+            <p class="card-text">{{ post.text|slice:"50" }}...</p>
 
             <div class="d-flex justify-content-between">
                 <div>
