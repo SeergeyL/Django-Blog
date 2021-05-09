@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-body">
+        <ul class="nav nav-pills flex-column">
+
+            <!--  User posts -->
+            <li class="nav-item">
+                {% if profile_page == 'profile' %}
+                <a class="nav-link active"
+                   aria-current="page" href="{% url 'profile' username=author.username %}">
+                    My posts
+                </a>
+                {% else %}
+                <a class="nav-link" href="{% url 'profile' username=author.username %}">
+                    My posts
+                </a>
+                {% endif %}
+            </li>
+
+            <!-- Following posts -->
+            <li class="nav-item">
+                {% if profile_page == 'profile_following_posts' %}
+                <a class="nav-link active"
+                   aria-current="page"
+                   href="{% url 'profile_following_posts' username=author.username %}">
+                    Following
+                </a>
+                {% else %}
+                <a class="nav-link"
+                   href="{% url 'profile_following_posts' username=author.username %}">
+                    Following
+                </a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>

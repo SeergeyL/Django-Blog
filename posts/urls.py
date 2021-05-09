@@ -12,8 +12,9 @@ urlpatterns = [
     path('post_<int:post_id>/edit/', views.edit_post, name='edit_post'),
     path('post_<int:post_id>/delete/', views.delete_post, name='delete_post'),
 
-    # User profile with posts
+    # User profile
     path('user/<str:username>/', views.profile, name='profile'),
+    path('user/<str:username>/following-posts', views.profile_following_posts, name='profile_following_posts'),
 
     # Add comment to post
     path('post_<int:post_id>/comment', views.add_comment, name='comment'),

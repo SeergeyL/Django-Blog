@@ -67,6 +67,25 @@ def profile(request, username):
         "author": user,
         "following": follow_status,
         "paginator": paginator,
+        "profile_page": 'profile',
+    })
+
+
+def profile_following_posts(request, username):
+    """ Renders profile page with following posts """
+
+    user = get_object_or_404(User, username=username)
+    folllowing_posts = Post.objects.filter(author__following__user=request.user)
+    follow_status = user.following.filter(blogger__username=username).exists()
+
+    page, paginator = setup_paginator(folllowing_posts, request)
+
+    return render(request, 'profile.html', {
+        "posts": page,
+        "author": user,
+        "following": follow_status,
+        "paginator": paginator,
+        "profile_page": 'profile_following_posts',
     })
 
 
