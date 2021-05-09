@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from posts.forms import PostForm, CommentForm
 from posts.models import Post, PostCategory, User, Follow, Comment
-from .services import get_random_posts
+from .services import get_random_posts, setup_paginator
 
 
 def index(request):
@@ -14,10 +13,7 @@ def index(request):
     categories = PostCategory.objects.all()
     random_posts = get_random_posts()
 
-    # Setting up Paginator
-    paginator = Paginator(posts, 10)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
+    page, paginator = setup_paginator(posts, request)
 
     return render(request, "index.html", {
         "posts": page,
@@ -35,10 +31,7 @@ def category_page(request, slug):
     categories = PostCategory.objects.all()
     random_posts = get_random_posts()
 
-    # Setting up Paginator
-    paginator = Paginator(posts, 10)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
+    page, paginator = setup_paginator(posts, request)
 
     return render(request, "index.html", {
         "posts": page,
@@ -67,10 +60,7 @@ def profile(request, username):
     user_posts = user.posts.all()
     follow_status = user.following.filter(blogger__username=username).exists()
 
-    # Setting up Paginator
-    paginator = Paginator(user_posts, 10)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
+    page, paginator = setup_paginator(user_posts, request)
 
     return render(request, 'profile.html', {
         "posts": page,
