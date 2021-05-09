@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from posts.forms import PostForm, CommentForm
 from posts.models import Post, PostCategory, User, Follow, Comment
+from .services import get_random_posts
 
 
 def index(request):
@@ -11,6 +12,7 @@ def index(request):
     """
     posts = Post.objects.order_by('-pub_date')
     categories = PostCategory.objects.all()
+    random_posts = get_random_posts()
 
     # Setting up Paginator
     paginator = Paginator(posts, 10)
@@ -21,6 +23,7 @@ def index(request):
         "posts": page,
         "categories": categories,
         "paginator": paginator,
+        "random_posts": random_posts,
     })
 
 
@@ -30,6 +33,7 @@ def category_page(request, slug):
     """
     posts = Post.objects.filter(category__slug=slug).order_by('-pub_date')
     categories = PostCategory.objects.all()
+    random_posts = get_random_posts()
 
     # Setting up Paginator
     paginator = Paginator(posts, 10)
@@ -40,6 +44,7 @@ def category_page(request, slug):
         "posts": page,
         "categories": categories,
         "paginator": paginator,
+        "random_posts": random_posts,
     })
 
 
@@ -49,8 +54,9 @@ def post_page(request, post_id):
     """
     post = Post.objects.get(pk=post_id)
     form = CommentForm()
+    random_posts = get_random_posts()
 
-    return render(request, "post.html", {"post": post, 'form': form})
+    return render(request, "post.html", {"post": post, 'form': form, "random_posts": random_posts})
 
 
 def profile(request, username):

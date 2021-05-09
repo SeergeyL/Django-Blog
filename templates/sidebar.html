@@ -1,9 +1,27 @@
-<!-- Most popular posts/users and other important stuff (create side_card item) -->
 <div class="col-4" >
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Random posts</h5>
-            <!-- List of posts  -->
+
+            {% for post in random_posts %}
+            <div class="card mb-3" style="width=80%;">
+                <div class="row g-0">
+                    <div class="col-4">
+                        {% load thumbnail %}
+                        {% thumbnail post.image "200x200" crop="center" upscale=True as im %}
+                        <img class="col-4 card-img" src="{{ im.url }}" />
+                        {% endthumbnail %}
+                    </div>
+                    <div class="col-8">
+                        <div class="card-body">
+                            <a class="text-muted text-decoration-none" href="{% url 'post' post_id=post.pk %}"><h5 class="card-title">{{ post.title }}</h5></a>
+                            <p class="card-text"><small class="text-muted">{{ post.pub_date }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
         </div>
     </div>
 </div>
