@@ -13,7 +13,7 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', default='avatars/avatar.jpg')
-    viewed_posts = models.ManyToManyField(Post)
+    viewed_posts = models.ManyToManyField(Post, related_name='views')
 
     def __str__(self):
         return self.user.username

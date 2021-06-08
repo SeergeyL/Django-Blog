@@ -28,6 +28,9 @@
                     <small class="ms-2">
                         {{ post.pub_date|date:"d M Y"}}
                     </small>
+                    <small class="ms-2">
+                        Views {{ post.views.count }}
+                    </small>
                 </div>
                 <div>
                     <a class="btn btn-outline-primary btn-sm" href="{% url 'post' post_id=post.pk %}">Read more</a>
