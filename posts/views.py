@@ -11,7 +11,6 @@ def index(request):
     """
     posts = Post.objects.order_by('-pub_date')
     categories = PostCategory.objects.all()
-    random_posts = get_random_posts()
 
     page, paginator = setup_paginator(posts, request)
 
@@ -19,7 +18,6 @@ def index(request):
         "posts": page,
         "categories": categories,
         "paginator": paginator,
-        "random_posts": random_posts,
     })
 
 
@@ -29,7 +27,6 @@ def category_page(request, slug):
     """
     posts = Post.objects.filter(category__slug=slug).order_by('-pub_date')
     categories = PostCategory.objects.all()
-    random_posts = get_random_posts()
 
     page, paginator = setup_paginator(posts, request)
 
@@ -37,7 +34,6 @@ def category_page(request, slug):
         "posts": page,
         "categories": categories,
         "paginator": paginator,
-        "random_posts": random_posts,
     })
 
 
@@ -47,14 +43,13 @@ def post_page(request, post_id):
     """
     post = Post.objects.get(pk=post_id)
     form = CommentForm()
-    random_posts = get_random_posts()
 
     # Add post to viewed by user
     if request.user.is_authenticated \
             and not request.user.userprofile.viewed_posts.filter(id=post_id).exists():
         request.user.userprofile.viewed_posts.add(post)
 
-    return render(request, "post.html", {"post": post, 'form': form, "random_posts": random_posts})
+    return render(request, "post.html", {"post": post, 'form': form})
 
 
 def profile(request, username):

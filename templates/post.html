@@ -3,6 +3,8 @@
 {% block title %}{{ post.title }}{% endblock%}
 
 {% load user_filters %}
+{% load post_tags %}
+
 {% block content %}
 <div class="row mt-4 justify-content-between">
     <div class="col">
@@ -51,7 +53,7 @@
 
     </div>
 
-    {% include 'sidebar.html' %}
+    {% generate_random_posts %}
 
 </div>
 
