@@ -49,6 +49,11 @@ def post_page(request, post_id):
     form = CommentForm()
     random_posts = get_random_posts()
 
+    # Add post to viewed by user
+    if request.user.is_authenticated \
+            and not request.user.userprofile.viewed_posts.filter(id=post_id).exists():
+        request.user.userprofile.viewed_posts.add(post)
+
     return render(request, "post.html", {"post": post, 'form': form, "random_posts": random_posts})
 
 
@@ -86,6 +91,22 @@ def profile_following_posts(request, username):
         "following": follow_status,
         "paginator": paginator,
         "profile_page": 'profile_following_posts',
+    })
+
+
+def profile_history(request, username):
+    user = get_object_or_404(User, username=username)
+    history = user.userprofile.viewed_posts.all().order_by('-pub_date')
+    follow_status = user.following.filter(blogger__username=username).exists()
+
+    page, paginator = setup_paginator(history, request)
+
+    return render(request, 'profile.html', {
+        "posts": page,
+        "author": user,
+        "following": follow_status,
+        "paginator": paginator,
+        "profile_page": 'profile_history',
     })
 
 

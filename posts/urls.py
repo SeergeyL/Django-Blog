@@ -15,6 +15,7 @@ urlpatterns = [
     # User profile
     path('user/<str:username>/', views.profile, name='profile'),
     path('user/<str:username>/following-posts', views.profile_following_posts, name='profile_following_posts'),
+    path('user/<str:username>/profile-history', views.profile_history, name='profile_history'),
 
     # Add comment to post
     path('post_<int:post_id>/comment', views.add_comment, name='comment'),

@@ -31,6 +31,24 @@
                 </a>
                 {% endif %}
             </li>
+
+            {% if request.user == author %}
+            <!-- Viewed posts -->
+            <li class="nav-item">
+                {% if profile_page == 'profile_history' %}
+                <a class="nav-link active"
+                   aria-current="page"
+                   href="{% url 'profile_history' username=author.username %}">
+                    History
+                </a>
+                {% else %}
+                <a class="nav-link"
+                   href="{% url 'profile_history' username=author.username %}">
+                    History
+                </a>
+                {% endif %}
+            </li>
+            {% endif %}
         </ul>
     </div>
 </div>
