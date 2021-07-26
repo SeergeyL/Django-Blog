@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from posts.forms import PostForm, CommentForm
 from posts.models import Post, PostCategory, User, Follow, Comment
-from .services import get_random_posts, setup_paginator
+from .services import setup_paginator
 
 
 def index(request):
