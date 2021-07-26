@@ -10,6 +10,12 @@
 * Random posts recommendation
 
 # Setup 
+
+Install dependencies
+```
+pip install -r requirements.txt
+```
+
 Create migrations
 
 ``` 
